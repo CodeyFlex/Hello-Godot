@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Interface/bar/life_bar/LifeBar.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Interface/bar/energy_bar/EnergyBar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Interface/counter/Reputation/ReputationCounter.tscn" type="PackedScene" id=3]
+
+[node name="Interface" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 533.0
+margin_bottom = 305.0
+
+[node name="Bars" type="VBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="LifeBar" parent="Bars" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 0.0
+margin_right = 650.0
+margin_bottom = 53.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="EnergyBar" parent="Bars" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 57.0
+margin_right = 650.0
+margin_bottom = 110.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -348.0
+margin_bottom = 54.0
+
+[node name="ReputationCounter" parent="HBoxContainer" instance=ExtResource( 3 )]

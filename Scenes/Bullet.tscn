@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/Bullet.gd" type="Script" id=1]
+[ext_resource path="res://Sprite/Bullet/Bullet2.png" type="Texture" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 0.45731
+height = 2.40554
+
+[sub_resource type="Animation" id=2]
+resource_name = "explosion"
+
+[node name="Bullet" type="Area2D"]
+scale = Vector2( 3, 3 )
+collision_layer = 8
+collision_mask = 7
+script = ExtResource( 1 )
+speed = 200
+damage = 1
+lifetime = 100.0
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.0569832, 0.095245 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Lifetime" type="Timer" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/explosion = SubResource( 2 )
+[connection signal="body_entered" from="." to="." method="_on_Bullet_body_entered"]
+[connection signal="timeout" from="Lifetime" to="." method="_on_Lifetime_timeout"]

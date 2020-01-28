@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Interface/theme/label_bg.png" type="Texture" id=1]
+[ext_resource path="res://Interface/bar/label_HP.png" type="Texture" id=2]
+[ext_resource path="res://Interface/theme/Default_theme.tres" type="Theme" id=3]
+[ext_resource path="res://Interface/bar/bg.png" type="Texture" id=4]
+[ext_resource path="res://Interface/bar/fill.png" type="Texture" id=5]
+
+[node name="Bar" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -1.69833
+margin_right = 170.0
+margin_bottom = -501.698
+
+[node name="Counter" type="NinePatchRect" parent="."]
+margin_right = 250.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 250, 50 )
+texture = ExtResource( 1 )
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Icon" type="TextureRect" parent="Counter"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -237.795
+margin_top = -29.0
+margin_right = -182.795
+margin_bottom = 24.0
+texture = ExtResource( 2 )
+expand = true
+
+[node name="Label" type="Label" parent="Counter"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -170.0
+margin_top = -47.0
+margin_right = -62.0
+margin_bottom = 15.0
+rect_scale = Vector2( 1.5, 1.5 )
+theme = ExtResource( 3 )
+text = "10/100"
+align = 2
+valign = 1
+clip_text = true
+
+[node name="TextureProgress" type="TextureProgress" parent="."]
+margin_left = 254.0
+margin_right = 650.0
+margin_bottom = 100.0
+value = 40.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )

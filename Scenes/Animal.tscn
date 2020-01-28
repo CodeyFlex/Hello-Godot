@@ -1,0 +1,9 @@
+[gd_scene format=2]
+
+[node name="KinematicBody2D" type="KinematicBody2D"]
+
+[node name="Body" type="AnimatedSprite" parent="."]
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+
+[node name="AttackTimer" type="Timer" parent="."]

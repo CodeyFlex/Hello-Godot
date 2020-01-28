@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scripts/Box.gd" type="Script" id=1]
+[ext_resource path="res://Sprite/Store/Box/2.png" type="Texture" id=2]
+[ext_resource path="res://Sprite/Store/Box/1.png" type="Texture" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "Food",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "Empty",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 12.665, 61.6056 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 14.1931, 10.7196 )
+
+[node name="Box" type="KinematicBody2D"]
+script = ExtResource( 1 )
+
+[node name="Body" type="AnimatedSprite" parent="."]
+scale = Vector2( 3.01035, 3 )
+frames = SubResource( 1 )
+animation = "Empty"
+
+[node name="EntryRadius" type="Area2D" parent="Body"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/EntryRadius"]
+shape = SubResource( 2 )
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2( 0.184029, -0.184029 )
+scale = Vector2( 2.79832, 3.1085 )
+shape = SubResource( 3 )
+[connection signal="body_entered" from="Body/EntryRadius" to="." method="_on_EntryRadius_body_entered"]
+[connection signal="body_exited" from="Body/EntryRadius" to="." method="_on_EntryRadius_body_exited"]
