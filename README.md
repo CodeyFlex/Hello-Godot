@@ -14,3 +14,4 @@
   * Signals (Body enters collision layer & such)
   * Camera control
   * Player and NPC controls
+  * Some UI design
