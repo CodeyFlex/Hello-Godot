@@ -5,10 +5,10 @@
 <img src="busmafia.png" width="800" >
 
 * Tips:
- * Press f on boxes to refill them
- * Press f on dog to have it follow you/stop following you
- * Press 0 to unequip gun and play walk animation
- * Press 1 to draw gun once again
+  * Press f on boxes to refill them
+  * Press f on dog to have it follow you/stop following you
+  * Press 0 to unequip gun and play walk animation
+  * Press 1 to draw gun once again
 
 * Learned about:
   * Sprite animation
