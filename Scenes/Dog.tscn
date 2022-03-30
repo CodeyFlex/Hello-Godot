@@ -50,5 +50,6 @@ shape = SubResource( 2 )
 position = Vector2( 2.74893, 1.3767 )
 rotation = 1.54831
 shape = SubResource( 3 )
+
 [connection signal="body_entered" from="Body/DetectRadius" to="." method="_on_DetectRadius_body_entered"]
 [connection signal="body_exited" from="Body/DetectRadius" to="." method="_on_DetectRadius_body_exited"]

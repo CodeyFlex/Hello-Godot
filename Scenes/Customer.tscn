@@ -35,11 +35,12 @@ animation = "Walk"
 [node name="DetectRadius" type="Area2D" parent="Body" index="0"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body/DetectRadius" index="0"]
-position = Vector2( 132.962, -7.62939e-006 )
+position = Vector2( 119.469, 1.58739 )
 rotation = 1.57079
 shape = SubResource( 2 )
 
 [node name="Hitbox" parent="." index="1"]
 shape = SubResource( 3 )
+
 [connection signal="body_entered" from="Body/DetectRadius" to="." method="_on_DetectRadius_body_entered"]
 [connection signal="body_exited" from="Body/DetectRadius" to="." method="_on_DetectRadius_body_exited"]

@@ -1,0 +1,45 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Scenes/People.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Sprite/Employees/Woman Cashier/Walk/1.png" type="Texture" id=2]
+[ext_resource path="res://Sprite/Employees/Woman Cashier/Walk/2.png" type="Texture" id=3]
+[ext_resource path="res://Sprite/Employees/Woman Cashier/Walk/3.png" type="Texture" id=4]
+[ext_resource path="res://Sprite/Employees/Woman Cashier/Walk/4.png" type="Texture" id=5]
+[ext_resource path="res://Scripts/Cashier.gd" type="Script" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "Walk",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 65.9305
+height = 114.564
+
+[sub_resource type="CapsuleShape2D" id=3]
+height = 22.0339
+
+[node name="Cashier" instance=ExtResource( 1 )]
+script = ExtResource( 6 )
+speed = 200
+
+[node name="Body" parent="." index="0"]
+frames = SubResource( 1 )
+animation = "Walk"
+
+[node name="DetectRadius" type="Area2D" parent="Body" index="0"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/DetectRadius" index="0"]
+position = Vector2( 119.469, 1.58739 )
+rotation = 1.57079
+shape = SubResource( 2 )
+
+[node name="Hitbox" parent="." index="1"]
+position = Vector2( -1.26134, 0.420448 )
+shape = SubResource( 3 )
+
+[connection signal="body_entered" from="Body/DetectRadius" to="." method="_on_DetectRadius_body_entered"]
+[connection signal="body_exited" from="Body/DetectRadius" to="." method="_on_DetectRadius_body_exited"]

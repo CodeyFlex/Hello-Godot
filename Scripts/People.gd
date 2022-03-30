@@ -11,62 +11,106 @@ export(PackedScene) var Bullet
 export (int) var speed
 #export (float) var rotation_speed
 export (float) var gun_cooldown
-export (int) var health
-#export (int) var max_health = 100
+export (int) var health setget set_npc_health, get_npc_health
+export (int) var max_health = 100 setget set_npc_max_health, get_npc_max_health
+
+signal no_path
+
+#Path finder
+var path : = PoolVector2Array() setget set_path
+var path_available = false
+
+#Setters
+func set_npc_health(new_value):
+	health = new_value
+
+func set_npc_max_health(new_value):
+	max_health = new_value
+
+#Getters
+func get_npc_health():
+	return health
+
+func get_npc_max_health():
+	return max_health
 
 #Constants are variables that are assigned once and become permanent.
 #Write these in full caps to differentiate.
-#Writing : = lets godot figure out what type the value is.
 #const MAXIMUM_RUN_SPEED : = 400
 
 #status variables
 #Lav inventory quick slots så man klikker 1, 2, 3 osv. for at vælge våben.
 #Array under her:
 #var inventoryQuickSlots : = [nothing, fist, gun, knife]
-#var velocity = Vector2()
+var _velocity = Vector2()
 var can_shoot = true
-#var alive = true
+var alive = true
 
 func _ready():
 	pass
 
 func control(delta):
-	$GunTimer.wait_time = gun_cooldown
+	pass
+#	$GunTimer.wait_time = gun_cooldown
 
 func shoot():
 	if can_shoot:
-#		can_shoot = false
 #		$GunTimer.start()
 		var dir = Vector2(1, 0).rotated($Body.global_rotation)
-		emit_signal('shoot', Bullet, $Body/Muzzle.global_position, dir)
+		var shooter = $Body.get_parent()
+		emit_signal('shoot', Bullet, $Body/Muzzle.global_position, dir, shooter)
 
 func _on_GunTimer_timeout():
 	can_shoot = true
 
-#func _physics_process(delta):
-#	if not alive:
-#		return
+func _physics_process(delta):
+	if not alive:
+		return
 #	control(delta)
-#	move_and_slide(velocity)
+#	move_and_slide(_velocity)
 
-#Tilføj på et tidspunkt:
+	if path_available == false:
+		emit_signal("no_path")
 
-#Max health
-#if health > max_health:
-#	health = max_health
+	#Max health
+	if health > max_health:
+		health = max_health
+	
+	#Die
+	if health <= 0:
+		die()
+	#	animation_player.play('die')
 
-#func take_damage(amount:int) -> void:
-#	health -= amount
-#	health = max(0, health)
+func set_path(value : PoolVector2Array) -> void: #Path is received from root script
+	path = value
+	if value.size() == 0:
+		return
+	path_available = true
 
-#func heal(amount:int) -> void:
-#	health += amount
-#	health = min(health, max_health)
+func move_along_path(distance : float) -> void:
+	var last_point : = position
+	for index in range(path.size()):
+		var distance_to_next : = last_point.distance_to(path[0])
+		if distance <= distance_to_next and distance >= 0.0:
+			#Linear interpolate from Vector2, allows us to find a position between two vectors/positions.
+			position = last_point.linear_interpolate(path[0], distance / distance_to_next)
+			break
+		elif path.size() == 1 && distance >= distance_to_next:
+			position = path[0]
+			path_available = false
+			break
+		distance -= distance_to_next
+		last_point = path[0]
+		path.remove(0) 
 
-#Die
-#elif health <= 0:
-#	die()
+func take_damage(amount:int) -> void:
+	health -= amount
+	health = max(0, health) #Picks the highest value of the two as the final value.
 
-#Afspil death animation.
-#if health <= 0:
-#	animation_player.play('die')
+func heal(amount:int) -> void:
+	health += amount
+	health = min(health, max_health)
+	
+#Removes scene instance from game
+func die():
+	queue_free()

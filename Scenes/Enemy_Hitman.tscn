@@ -1,0 +1,77 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Scenes/People.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/Enemy Hitman.gd" type="Script" id=2]
+[ext_resource path="res://Sprite/Hitman/Walk/1.png" type="Texture" id=3]
+[ext_resource path="res://Sprite/Hitman/Walk/2.png" type="Texture" id=4]
+[ext_resource path="res://Sprite/Hitman/Walk/3.png" type="Texture" id=5]
+[ext_resource path="res://Sprite/Hitman/Walk/4.png" type="Texture" id=6]
+[ext_resource path="res://Sprite/Hitman/HitmanDrawGun.png" type="Texture" id=7]
+[ext_resource path="res://Sprite/Hitman/HitmanGunDrawn.png" type="Texture" id=8]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": false,
+"name": "DrawGun",
+"speed": 3.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "Walk",
+"speed": 3.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 315.913
+height = 7.76752
+
+[sub_resource type="CircleShape2D" id=3]
+
+[sub_resource type="CapsuleShape2D" id=4]
+radius = 23.3453
+height = 39.0413
+
+[node name="Enemy_Hitman" instance=ExtResource( 1 )]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 2 )
+gun_cooldown = 1.0
+health = 30
+
+[node name="Body" parent="." index="0"]
+scale = Vector2( 2, 2 )
+frames = SubResource( 1 )
+animation = "Walk"
+
+[node name="EyesDetectRadius" type="Area2D" parent="Body" index="0"]
+scale = Vector2( 0.5, 0.5 )
+collision_mask = 2
+
+[node name="EyesVisionShape" type="CollisionShape2D" parent="Body/EyesDetectRadius" index="0"]
+position = Vector2( 341.847, 0.751158 )
+rotation = 1.57403
+scale = Vector2( 0.733986, 1.11239 )
+shape = SubResource( 2 )
+
+[node name="Muzzle" parent="Body" index="1"]
+position = Vector2( 19.9, 7.81352 )
+
+[node name="EarsDetectRadius" type="Area2D" parent="Body" index="2"]
+
+[node name="EarsHearingShape" type="CollisionShape2D" parent="Body/EarsDetectRadius" index="0"]
+scale = Vector2( 15, 15 )
+shape = SubResource( 3 )
+
+[node name="Hitbox" parent="." index="1"]
+position = Vector2( -8.46765, -5.83976 )
+shape = SubResource( 4 )
+
+[node name="HearingDetectionTimer" type="Timer" parent="." index="3"]
+wait_time = 2.0
+
+[connection signal="body_entered" from="Body/EyesDetectRadius" to="." method="_on_EyesDetectRadius_body_entered"]
+[connection signal="body_exited" from="Body/EyesDetectRadius" to="." method="_on_EyesDetectRadius_body_exited"]
+[connection signal="body_entered" from="Body/EarsDetectRadius" to="." method="_on_EarsDetectRadius_body_entered"]
+[connection signal="body_exited" from="Body/EarsDetectRadius" to="." method="_on_EarsDetectRadius_body_exited"]
+[connection signal="timeout" from="HearingDetectionTimer" to="." method="_on_HearingDetectionTimer_timeout"]

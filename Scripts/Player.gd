@@ -1,9 +1,18 @@
 extends "res://Scripts/People.gd"
 
 var ACCELERATION = 6000
-var motion = Vector2.ZERO
+var velocity = Vector2.ZERO
+onready var parent = get_parent() #Parent should be the root node, otherwise this code needs to be changed to reflect that
 
-var Gun_Drawn = true
+onready var health_bar : TextureProgress = parent.get_node("Interface/CanvasLayer/Bars/LifeBar/TextureProgress")
+onready var health_bar_label : Label = parent.get_node("Interface/CanvasLayer/Bars/LifeBar/Counter/Label")
+onready var store_favor_label : Label = parent.get_node("Interface/CanvasLayer/HBoxContainer/ReputationCounter/Label")
+
+onready var enemy_hitman : KinematicBody2D = $Enemy_Hitman
+
+var store_favor = 0
+
+var Gun_Drawn = false
 
 #Get player direction input
 func _physics_process(delta):
@@ -11,30 +20,33 @@ func _physics_process(delta):
 	$Body.look_at(get_global_mouse_position())
 
 	#Shooting script:
-	if Input.is_action_just_pressed('ui_click'):
+	if Input.is_action_pressed('ui_click'):
 		shoot()
 	
 	var axis = get_input_axis()
-	#A vector2 is a x and a Y value
 	if axis == Vector2.ZERO:
 		apply_friction(ACCELERATION * delta)
+		
+		#Animation
 		$Body.stop()
 		$Body.set_frame(1)
 	else:
 		apply_movement(axis * ACCELERATION * delta)
+		
+		# Plays walk animation is fun isn't drawn
 		if Gun_Drawn == true:
 			pass
 		else:
-			$Body.play("Walk")
-
-	if Input.is_action_just_pressed("ui_0"):
-		unequip_everything()
+			$Body.play("Walk") #Animation
 
 	if Input.is_action_just_pressed("ui_1"):
 		draw_gun()
 
+	if Input.is_action_just_pressed("ui_3"):
+		unequip_everything()
+
 #The kinematic body will move and slide along collisions
-	motion = move_and_slide(motion)
+	velocity = move_and_slide(velocity)
 
 func get_input_axis():
 	var axis = Vector2.ZERO
@@ -46,16 +58,16 @@ func get_input_axis():
 
 #removing speed?
 func apply_friction(amount):
-	if motion.length() > amount:
+	if velocity.length() > amount:
 #		dette laver et slags slide, men gem det til biler:
-#		motion -= motion.normalized() * amount
+#		velocity -= velocity.normalized() * amount
 #	else:
-		motion = Vector2.ZERO
+		velocity = Vector2.ZERO
 
 func apply_movement(acceleration):
-	motion += acceleration
+	velocity += acceleration
 #	Sets a max speed of the player, clamped is part of Godot
-	motion = motion.clamped(speed)
+	velocity = velocity.clamped(speed)
 
 func _on_GunTimer_timeout():
 	can_shoot = true
@@ -68,12 +80,36 @@ func unequip_everything():
 	$Body.play("Walk")
 	Gun_Drawn = false
 
-	#Quit Game
-	
-#	if Input.is_key_pressed(KEY_Q):
-#		get_tree().quit()
-	
-	# Goes where i click
-	
-#	if Input.is_mouse_button_pressed(BUTTON_right):
-#		self.position = get_viewport().get_mouse_position()
+func update_health_bar():
+	if health_bar != null:
+		health_bar.value = health
+	if health_bar_label != null:
+		health_bar_label.set_text(str(health,"/100"))
+
+func update_store_favor():
+	store_favor += 1
+	if store_favor_label != null:
+		store_favor_label.set_text(str(store_favor))
+
+
+func _on_Box_customer_good_experience():
+	update_store_favor()
+
+
+func _on_Box2_customer_good_experience():
+	update_store_favor()
+
+
+func _on_Box3_customer_good_experience():
+	update_store_favor()
+
+
+func _on_Box4_customer_good_experience():
+	update_store_favor()
+
+
+func _on_Box5_customer_good_experience():
+	update_store_favor()
+
+func _on_Box6_customer_good_experience():
+	update_store_favor()

@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Sprite/Aged Hitman/Aged Hitman Gun Drawn.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/CSharp/Civilian.cs" type="Script" id=2]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 315.913
+height = 7.76752
+
+[sub_resource type="CircleShape2D" id=4]
+
+[node name="Civilian" type="KinematicBody2D"]
+scale = Vector2( 2, 2 )
+script = ExtResource( 2 )
+
+[node name="Body" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+
+[node name="Muzzle" type="Position2D" parent="Body"]
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2( -10.2531, -1.06066 )
+shape = SubResource( 2 )
+
+[node name="GunTimer" type="Timer" parent="."]
+
+[node name="EyesDetectRadius" type="Area2D" parent="."]
+scale = Vector2( 0.5, 0.5 )
+collision_mask = 2
+
+[node name="EyesVisionShape" type="CollisionShape2D" parent="EyesDetectRadius"]
+position = Vector2( 341.847, 0.751158 )
+rotation = 1.57403
+scale = Vector2( 0.733986, 1.11239 )
+shape = SubResource( 3 )
+
+[node name="EarsDetectRadius" type="Area2D" parent="."]
+
+[node name="EarsHearingShape" type="CollisionShape2D" parent="EarsDetectRadius"]
+scale = Vector2( 15, 15 )
+shape = SubResource( 4 )
+
+[node name="HearingDetectionTimer" type="Timer" parent="."]
+wait_time = 2.0

@@ -15,7 +15,7 @@ margin_bottom = -501.698
 
 [node name="Counter" type="NinePatchRect" parent="."]
 margin_right = 250.0
-margin_bottom = 100.0
+margin_bottom = 296.0
 rect_min_size = Vector2( 250, 50 )
 texture = ExtResource( 1 )
 patch_margin_left = 8
@@ -54,7 +54,7 @@ clip_text = true
 [node name="TextureProgress" type="TextureProgress" parent="."]
 margin_left = 254.0
 margin_right = 650.0
-margin_bottom = 100.0
+margin_bottom = 296.0
 value = 40.0
 texture_under = ExtResource( 4 )
 texture_progress = ExtResource( 5 )
