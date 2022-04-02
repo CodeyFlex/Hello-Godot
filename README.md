@@ -1,4 +1,4 @@
-# Godot-Project
+# Godot Business Shooter Game
 
 ### Here's some of the things i worked on in January, whilst checking out if the Godot engine was something i'd be interested in working more within.
 
